@@ -30,6 +30,8 @@ manage.py        # Django entrypoint
 requirements.txt # Python dependencies
 ```
 
+**Note:** The Bootstrap theme included in `theme/` was _not_ created by me; full credit goes to its original authors.
+
 ---
 
 ## 🔧 Tech Stack

@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %} 
-
+{% load static %}
 
 <main class="profile-page layout layout--2">
   <div class="container">
@@ -69,7 +69,7 @@
             <p>Hosted By</p>
             <a href="{% url 'user-profile' room.host.id %}" class="room__author">
               <div class="avatar avatar--small">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                <img src="{{room.host.avatar.url}}" />
               </div>
               <span>@{{room.host.username}}</span>
             </a>
@@ -90,7 +90,7 @@
                 <div class="thread__author">
                   <a href="{% url 'user-profile' message.user.id %}" class="thread__authorInfo">
                     <div class="avatar avatar--small">
-                      <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                      <img src="{{message.user.avatar.url}}" />
                     </div>
                     <span>@{{message.user.username}}</span>
                   </a>
@@ -132,15 +132,29 @@
       <h3 class="participants__top">Participants <span>({{participants.count}} Joined)</span></h3>
       <div class="participants__list scroll">
         {% for user in participants %}
-        <a href="{% url 'user-profile' user.id %}" class="participant">
-          <div class="avatar avatar--medium">
-            <img src="https://randomuser.me/api/portraits/men/37.jpg" />
-          </div>
-          <p>
-            {{user.username}}
-            <span>@{{user.username}}</span>
-          </p>
-        </a>
+          <a href="{% url 'user-profile' user.id %}" class="participant">
+            <div class="avatar avatar--medium">
+              {% if user.avatar %}
+                <img 
+                  src="{{ user.avatar.url }}" 
+                  alt="{{ user.username }}’s avatar" 
+                  class="avatar avatar--small"
+                />
+              {% else %}
+                <img 
+                  src="{% static 'images/avatar.svg' %}" 
+                  alt="Default avatar" 
+                  class="avatar avatar--small"
+                />
+              {% endif %}
+            </div>
+            <p>
+              {{ user.username }}
+              <span>@{{ user.username }}</span>
+            </p>
+          </a>
+          {% empty %}
+          <p>No participants yet.</p>
         {% endfor %}
       </div>
     </div>
